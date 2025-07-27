@@ -1,7 +1,8 @@
 #pragma once
 
-#include <>
 #include <print>
+#include <format>
+#include <string>
 
 namespace NullEngine
 {
@@ -19,38 +20,45 @@ namespace NullEngine
 	public:
 		Logger(LogLevel level, std::string name) : m_level(level), m_name(std::move(name)) {}
 		Logger(std::string name) : m_level(s_InitialLogLevel), m_name(std::move(name)) {}
+		~Logger() = default;
 
 		template <typename... Args>
-		void Log(LogLevel level, const std::string& format, Args&&... args) const
+		void Log(LogLevel level, std::format_string<Args...> format, Args&&... args) const
 		{
-			if (level < m_level) return;
+			if (level > m_level) return;
 
 			auto levelStr = LevelToString(level);
-			std::string message = std::vformat(format, std::make_format_args(std::forward<Args>(args)...));
 
-			std::println("{} [{}]: {}", levelStr, m_name, message);
+			std::println("{} [{}]: {}", levelStr, m_name, std::format(format, std::forward<Args>(args)...));
 		}
 
 		template <typename... Args>
-		void Error(const std::string& format, Args&&... args) const
+		void Error(std::format_string<Args...> format, Args&&... args) const
 		{
 			Log(LogLevel::Error, format, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		void Warning(const std::string& format, Args&&... args) const
+		void ThrowError(std::format_string<Args...> format, Args&&... args) const
+		{
+			Log(LogLevel::Error, format, std::forward<Args>(args)...);
+			throw std::exception();
+		}
+
+		template <typename... Args>
+		void Warning(std::format_string<Args...> format, Args&&... args) const
 		{
 			Log(LogLevel::Warning, format, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		void Info(const std::string& format, Args&&... args) const
+		void Info(std::format_string<Args...> format, Args&&... args) const
 		{
 			Log(LogLevel::Info, format, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		void Debug(const std::string& format, Args&&... args) const
+		void Debug(std::format_string<Args...> format, Args&&... args) const
 		{
 			Log(LogLevel::Debug, format, std::forward<Args>(args)...);
 		}
@@ -76,5 +84,5 @@ namespace NullEngine
 		std::string m_name;
 	};
 
-	static inline Logger s_Logger("Unknown");
+	static inline Logger s_Logger{ LogLevel::Debug, "Unknown" };
 }
