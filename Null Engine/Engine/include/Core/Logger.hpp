@@ -19,8 +19,13 @@ namespace NullEngine
 	{
 	public:
 		Logger(LogLevel level, std::string name) : m_level(level), m_name(std::move(name)) {}
-		Logger(std::string name) : m_level(s_InitialLogLevel), m_name(std::move(name)) {}
+		Logger(std::string name) : m_level(InitialLogLevel), m_name(std::move(name)) {}
 		~Logger() = default;
+
+		void PrintEmptyLine() const
+		{
+			std::println();
+		}
 
 		template <typename... Args>
 		void Log(LogLevel level, std::format_string<Args...> format, Args&&... args) const
@@ -77,12 +82,12 @@ namespace NullEngine
 		}
 
 	public:
-		static inline LogLevel s_InitialLogLevel = LogLevel::Debug;
+		static inline LogLevel InitialLogLevel = LogLevel::Debug;
 
 	private:
 		LogLevel m_level;
 		std::string m_name;
 	};
 
-	static inline Logger s_Logger{ LogLevel::Debug, "Unknown" };
+	static inline Logger logger{ LogLevel::Debug, "Unknown" };
 }

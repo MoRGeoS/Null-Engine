@@ -15,11 +15,20 @@
     <ClInclude Include="Engine\include\Core\Logger.hpp" />
     <ClInclude Include="Engine\include\ECS\ECS.hpp" />
     <ClInclude Include="Engine\include\ECS\System.hpp" />
+    <ClInclude Include="Engine\include\Engine.h" />
+    <ClInclude Include="Engine\include\Graphics\Mesh.h" />
+    <ClInclude Include="Engine\include\Graphics\Shader.h" />
     <ClInclude Include="Engine\include\Systems\TestSystem.hpp" />
-    <ClInclude Include="Engine\include\Window\Window.h" />
+    <ClInclude Include="Engine\include\Graphics\Window.h" />
+    <ClInclude Include="Engine\include\Utils\FileIO.hpp" />
+    <ClInclude Include="Engine\include\Utils\Path.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\src\Window\Window.cpp" />
+    <ClCompile Include="Engine\src\Engine.cpp" />
+    <ClCompile Include="Engine\src\Graphics\Mesh.cpp" />
+    <ClCompile Include="Engine\src\Graphics\Shader.cpp" />
+    <ClCompile Include="Engine\src\Graphics\Window.cpp" />
+    <ClCompile Include="glad.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -61,13 +70,13 @@
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)-$(Platform)</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(ProjectName)\$(Configuration)-$(Platform)</IntDir>
     <TargetName>Engine</TargetName>
-    <IncludePath>$(ProjectDir)vendors\;$(ProjectDir)Engine\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)vendors\glad\;$(ProjectDir)Engine\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Configuration)-$(Platform)</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(ProjectName)\$(Configuration)-$(Platform)</IntDir>
     <TargetName>Engine</TargetName>
-    <IncludePath>$(ProjectDir)vendors\;$(ProjectDir)Engine\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)vendors\glad\;$(ProjectDir)Engine\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
